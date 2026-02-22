@@ -2,165 +2,139 @@
 <html lang="my">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ရွှေမျက်နှာ ၁၀၀ - နိမိတ်ပုံများ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ရွှေနမိတ်၁၀၀</title>
     <style>
         :root {
-            --royal-gold: #D4AF37;
-            --deep-maroon: #4A0404;
-            --black: #0A0A0A;
-            --card-w: 85px;
-            --card-h: 135px;
+            --gold: #D4AF37;
+            --maroon: #4A0404;
+            --black: #050505;
+            --card-w: 80px; /* ဖုန်းအတွက် နည်းနည်းလျှော့ထားတယ် */
+            --card-h: 125px;
         }
 
         body {
             margin: 0; background: var(--black); color: white;
-            font-family: 'Segoe UI', serif;
+            font-family: sans-serif; overflow: hidden; height: 100vh;
             display: flex; flex-direction: column; align-items: center;
-            height: 100vh; overflow: hidden;
             background-image: radial-gradient(circle, #2a0202 0%, #000 100%);
+            user-select: none; -webkit-user-select: none;
         }
 
         /* Access Gate */
         #gate {
             position: fixed; inset: 0; background: var(--black); z-index: 2000;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            border: 5px double var(--royal-gold);
         }
 
-        /* Full Screen Menu Screen */
+        /* Menu Screen */
         #menu-screen {
             position: fixed; inset: 0; background: rgba(10, 0, 0, 0.98); z-index: 1000;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .menu-title {
-            color: var(--royal-gold); font-size: 1.8rem; margin-bottom: 40px;
-            text-shadow: 0 0 15px rgba(212, 175, 55, 0.5); font-weight: bold;
-        }
+        .menu-title { color: var(--gold); font-size: 1.4rem; margin-bottom: 30px; font-weight: bold; text-align: center; }
+        .spread-options { display: flex; flex-direction: column; gap: 12px; width: 80%; max-width: 280px; }
 
-        .spread-options { display: flex; flex-direction: column; gap: 15px; width: 280px; }
-
-        .menu-btn {
+        .btn {
             background: linear-gradient(135deg, #5a0505, #2a0202); 
-            border: 1px solid var(--royal-gold); color: var(--royal-gold);
-            padding: 18px; font-size: 1.1rem; border-radius: 4px; cursor: pointer;
-            transition: 0.3s; text-align: center;
+            border: 1px solid var(--gold); color: var(--gold);
+            padding: 14px; border-radius: 4px; cursor: pointer; font-size: 1rem;
+            -webkit-tap-highlight-color: transparent;
         }
-
-        .menu-btn:hover { background: var(--royal-gold); color: var(--deep-maroon); font-weight: bold; }
+        .btn:active { background: var(--gold); color: var(--maroon); }
 
         /* Board Area */
-        #table { position: relative; width: 100vw; height: 90vh; max-width: 800px; margin-top: 20px; display: none; }
+        #table { position: relative; width: 100vw; height: 85vh; max-width: 500px; display: none; margin-top: 10px; }
+        .back-btn { position: absolute; top: 10px; right: 20px; background: rgba(0,0,0,0.5); border: 1px solid var(--gold); color: var(--gold); padding: 5px 12px; cursor: pointer; z-index: 100; border-radius: 4px; }
 
-        .back-btn {
-            position: absolute; top: 10px; right: 20px; background: none;
-            border: 1px solid var(--royal-gold); color: var(--royal-gold); 
-            padding: 8px 15px; border-radius: 4px; cursor: pointer; z-index: 50;
-        }
-
-        /* 3D Card */
-        .card {
-            width: var(--card-w); height: var(--card-h); position: absolute;
-            perspective: 1000px; transition: all 1s cubic-bezier(0.2, 1, 0.3, 1);
-        }
-
-        .card-inner {
-            position: relative; width: 100%; height: 100%;
-            transform-style: preserve-3d; transition: transform 0.8s ease; cursor: pointer;
-        }
-
+        /* Card Setup */
+        .card { width: var(--card-w); height: var(--card-h); position: absolute; perspective: 1000px; transition: 1s cubic-bezier(0.2, 1, 0.3, 1); }
+        .card-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: 0.6s ease; cursor: pointer; }
         .card.flipped .card-inner { transform: rotateY(180deg); }
 
-        .face {
-            position: absolute; width: 100%; height: 100%;
-            backface-visibility: hidden; border-radius: 6px; 
-            border: 2px solid var(--royal-gold); box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        }
-
-        /* Card Back with your specific image */
+        .face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 6px; border: 1.5px solid var(--gold); overflow: hidden; }
+        
         .back { 
             background: #1a1a1a;
             background-image: url('https://i.ibb.co/rfsHXz2W/file-0000000050c0720994b917cac9b85031.png');
-            background-size: cover;
-            background-position: center;
+            background-size: cover; background-position: center;
         }
 
         .front { transform: rotateY(180deg); background: white; display: flex; align-items: center; justify-content: center; }
-        .front img { width: 95%; height: 95%; object-fit: contain; }
+        .front img { width: 100%; height: 100%; object-fit: contain; }
 
-        .pass-input {
-            background: none; border: 1px solid var(--royal-gold); color: var(--royal-gold);
-            padding: 12px; text-align: center; font-size: 1.2rem; width: 220px; margin-bottom: 25px;
-        }
+        .pass-input { background: none; border: 1px solid var(--gold); color: var(--gold); padding: 12px; text-align: center; width: 200px; margin-bottom: 20px; font-size: 1.2rem; outline: none; border-radius: 4px; }
     </style>
 </head>
 <body>
 
     <div id="gate">
-        <h2 style="color:var(--royal-gold);">ရွှေမျက်နှာ ၁၀၀</h2>
-        <input type="password" id="pass" class="pass-input" placeholder="လျှို့ဝှက်နံပါတ်" maxlength="6">
-        <button class="menu-btn" style="width:245px" onclick="auth()">ဝင်မည်</button>
+        <h2 style="color:var(--gold);">ရွှေနမိတ်၁၀၀</h2>
+        <input type="password" id="pass" class="pass-input" placeholder="PASSCODE" maxlength="6">
+        <button class="btn" style="width:225px" onclick="auth()">ACCESS</button>
     </div>
 
     <div id="menu-screen" style="display:none">
-        <div class="menu-title">နိမိတ်အခင်းအကျင်း ရွေးချယ်ပါ</div>
+        <div class="menu-title">နိမိတ်အခင်းအကျင်းကို ရွေးပါ</div>
         <div class="spread-options">
-            <button class="menu-btn" onclick="selectSpread('saloon', 6)">စလွန်းတောင် အခင်း</button>
-            <button class="menu-btn" onclick="selectSpread('kadaw', 4)">ကတော်လေးပါး အခင်း</button>
-            <button class="menu-btn" onclick="selectSpread('kuni', 5)">ကူနီပွဲ အခင်း</button>
-            <button class="menu-btn" onclick="selectSpread('house', 7)">အိမ်တွင်း ၇ ပါး အခင်း</button>
+            <button class="btn" onclick="selectSpread('saloon', 6)">စလွန်းတောင်အခင်း</button>
+            <button class="btn" onclick="selectSpread('kadaw', 4)">ကတော်လေးပါးအခင်း</button>
+            <button class="btn" onclick="selectSpread('kuni', 5)">ကူနီပွဲအခင်း</button>
+            <button class="btn" onclick="selectSpread('house', 7)">အိမ်တွင်း ၇ ပါးအခင်း</button>
         </div>
     </div>
 
     <div id="table">
-        <button class="back-btn" onclick="resetToMenu()">← ပြန်ထွက်မည်</button>
+        <button class="back-btn" onclick="reset()">← မီနူးသို့</button>
     </div>
 
     <script>
-        const gate = document.getElementById('gate');
-        const menuScreen = document.getElementById('menu-screen');
         const table = document.getElementById('table');
+        const menuScreen = document.getElementById('menu-screen');
 
         const layouts = {
-            saloon: [{t:10,l:45},{t:35,l:25},{t:35,l:65},{t:70,l:15},{t:70,l:45},{t:70,l:75}],
-            kadaw:  [{t:15,l:45},{t:45,l:20},{t:45,l:70},{t:75,l:45}],
-            kuni:   [{t:15,l:25},{t:15,l:65},{t:45,l:45},{t:75,l:25},{t:75,l:65}],
-            house:  [{t:10,l:25},{t:10,l:65},{t:40,l:10},{t:40,l:45},{t:40,l:80},{t:75,l:25},{t:75,l:65}]
+            saloon: [{t:8,l:50},{t:35,l:25},{t:35,l:75},{t:65,l:15},{t:65,l:50},{t:65,l:85}],
+            kadaw:  [{t:15,l:50},{t:45,l:20},{t:45,l:80},{t:75,l:50}],
+            kuni:   [{t:15,l:25},{t:15,l:75},{t:45,l:50},{t:75,l:25},{t:75,l:75}],
+            house:  [{t:10,l:30},{t:10,l:70},{t:40,l:15},{t:40,l:50},{t:40,l:85},{t:70,l:30},{t:70,l:70}]
         };
 
         function auth() {
             if(document.getElementById('pass').value === "999999") {
-                gate.style.display = 'none';
+                document.getElementById('gate').style.display = 'none';
                 menuScreen.style.display = 'flex';
-            } else { alert('!'); }
+            } else { alert('Code Incorrect!'); }
         }
 
         function selectSpread(type, count) {
-            menuScreen.style.opacity = '0';
-            setTimeout(() => {
-                menuScreen.style.display = 'none';
-                table.style.display = 'block';
-                draw(type, count);
-            }, 500);
+            menuScreen.style.display = 'none';
+            table.style.display = 'block';
+            draw(type, count);
         }
 
         function draw(type, count) {
             const coords = layouts[type];
             table.querySelectorAll('.card').forEach(c => c.remove());
 
+            // GitHub Pages မှာ အဆင်ပြေအောင် ပုံ ၁၀၀ ကို စီထားမယ်
+            let pool = Array.from({length: 100}, (_, i) => i + 1);
+            let selected = [];
             for(let i=0; i<count; i++) {
+                let idx = Math.floor(Math.random() * pool.length);
+                selected.push(pool.splice(idx, 1)[0]);
+            }
+
+            selected.forEach((num, i) => {
                 const c = document.createElement('div');
                 c.className = 'card';
-                c.style.top = '110%'; c.style.left = '45%';
+                c.style.top = '100%'; c.style.left = '50%';
                 
-                const randomID = Math.floor(Math.random() * 100) + 1;
                 c.innerHTML = `
                     <div class="card-inner" onclick="this.parentElement.classList.toggle('flipped')">
                         <div class="face back"></div>
                         <div class="face front">
-                            <img src="https://picsum.photos/seed/${randomID}/150/230" alt="Result">
+                            <img src="${num}.png" onerror="this.onerror=null; this.src='${num}.PNG';">
                         </div>
                     </div>
                 `;
@@ -168,15 +142,14 @@
 
                 setTimeout(() => {
                     c.style.top = coords[i].t + '%';
-                    c.style.left = `calc(${coords[i].l}% - 42px)`;
-                }, i * 200);
-            }
+                    c.style.left = `calc(${coords[i].l}% - (var(--card-w) / 2))`;
+                }, i * 150);
+            });
         }
 
-        function resetToMenu() {
+        function reset() {
             table.style.display = 'none';
             menuScreen.style.display = 'flex';
-            menuScreen.style.opacity = '1';
         }
     </script>
 </body>
