@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ရွှေနတ် ကြမ္မာ</title>
+    <title>ရွှေမျက်နှာ ၁၀၀</title>
     <style>
         :root {
             --gold: #D4AF37;
             --maroon: #4A0404;
             --black: #050505;
-            --card-w: 80px;
-            --card-h: 125px;
+            --card-w: 75px; /* ၁၂ ချပ်မို့ နည်းနည်းသေးထားတယ် */
+            --card-h: 115px;
         }
 
         body {
@@ -23,65 +23,66 @@
         /* Sidebar Menu */
         #sidebar {
             position: fixed; top: 0; left: -280px; width: 260px; height: 100%;
-            background: rgba(10, 0, 0, 0.95); border-right: 1px solid var(--gold);
+            background: rgba(10, 0, 0, 0.98); border-right: 1px solid var(--gold);
             z-index: 3000; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             padding: 20px; box-sizing: border-box;
         }
-        #sidebar.open { left: 0; box-shadow: 10px 0 20px rgba(0,0,0,0.8); }
+        #sidebar.open { left: 0; box-shadow: 10px 0 30px rgba(0,0,0,0.9); }
 
-        .menu-header { color: var(--gold); font-size: 1.2rem; border-bottom: 1px solid var(--gold); padding-bottom: 10px; margin-bottom: 20px; text-align: center; }
+        .menu-header { color: var(--gold); font-size: 1.2rem; border-bottom: 1px solid var(--gold); padding-bottom: 10px; margin-bottom: 20px; text-align: center; font-weight: bold; }
         .sidebar-btn { 
-            width: 100%; background: none; border: 1px solid transparent; color: #ccc;
+            width: 100%; background: none; border: 1px solid transparent; color: #ddd;
             padding: 15px; text-align: left; font-size: 1rem; cursor: pointer; transition: 0.3s;
         }
-        .sidebar-btn:hover { color: var(--gold); background: rgba(212, 175, 55, 0.1); }
+        .sidebar-btn:hover { color: var(--gold); background: rgba(212, 175, 55, 0.15); border-radius: 5px; }
 
-        /* Navigation Bar */
+        /* Top Bar */
         #nav-bar {
-            position: fixed; top: 0; width: 100%; height: 50px; background: rgba(0,0,0,0.5);
-            display: none; align-items: center; padding: 0 15px; box-sizing: border-box; z-index: 1500;
+            position: fixed; top: 0; width: 100%; height: 50px; background: rgba(0,0,0,0.7);
+            display: none; align-items: center; padding: 0 15px; box-sizing: border-box; z-index: 1500; border-bottom: 0.5px solid rgba(212, 175, 55, 0.3);
         }
-        .menu-icon { font-size: 24px; color: var(--gold); cursor: pointer; }
+        .menu-icon { font-size: 26px; color: var(--gold); cursor: pointer; padding: 5px; }
 
-        /* Login Screen */
+        /* Gate/Login */
         #gate {
             position: fixed; inset: 0; background: var(--black); z-index: 4000;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
 
-        /* Full Screen Selection */
+        /* Selection Screen */
         #menu-screen {
             position: fixed; inset: 0; background: var(--black); z-index: 2500;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
 
-        /* Board Area */
-        #table { position: relative; width: 100vw; height: 90vh; max-width: 500px; display: none; margin-top: 50px; }
+        /* Board */
+        #table { position: relative; width: 100vw; height: 90vh; max-width: 600px; display: none; margin-top: 60px; }
 
         /* Card Styles */
-        .card { width: var(--card-w); height: var(--card-h); position: absolute; perspective: 1000px; transition: 1s cubic-bezier(0.2, 1, 0.3, 1); }
+        .card { width: var(--card-w); height: var(--card-h); position: absolute; perspective: 1000px; transition: 1.2s cubic-bezier(0.2, 1, 0.3, 1); }
         .card-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: 0.6s ease; cursor: pointer; }
         .card.flipped .card-inner { transform: rotateY(180deg); }
-        .face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 6px; border: 1.5px solid var(--gold); }
+        .face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 6px; border: 1.5px solid var(--gold); box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
         .back { background: #1a1a1a; background-image: url('https://i.ibb.co/rfsHXz2W/file-0000000050c0720994b917cac9b85031.png'); background-size: cover; background-position: center; }
         .front { transform: rotateY(180deg); background: white; display: flex; align-items: center; justify-content: center; }
         .front img { width: 100%; height: 100%; object-fit: contain; }
 
-        /* Zoom Modal */
+        /* Zoom */
         #zoom-modal {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 5000;
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 5000;
             display: none; justify-content: center; align-items: center; flex-direction: column;
         }
-        #zoom-img { width: 85%; max-width: 350px; border: 3px solid var(--gold); border-radius: 10px; }
-        .close-zoom { margin-top: 20px; color: white; border: 1px solid var(--gold); padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+        #zoom-img { width: 85%; max-width: 380px; border: 2px solid var(--gold); border-radius: 10px; box-shadow: 0 0 30px var(--gold); }
+        .close-zoom { margin-top: 25px; color: var(--gold); border: 1px solid var(--gold); padding: 10px 25px; border-radius: 30px; cursor: pointer; font-weight: bold; background: rgba(212, 175, 55, 0.1); }
 
         .btn {
             background: linear-gradient(135deg, #5a0505, #2a0202); 
             border: 1px solid var(--gold); color: var(--gold);
-            padding: 14px; border-radius: 4px; cursor: pointer; font-size: 1rem;
+            padding: 15px; border-radius: 5px; cursor: pointer; font-size: 1rem; transition: 0.3s;
         }
-        .pass-input { background: none; border: 1px solid var(--gold); color: var(--gold); padding: 12px; text-align: center; width: 200px; margin-bottom: 20px; font-size: 1.2rem; outline: none; }
-        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2900; display: none; }
+        .btn:active { transform: scale(0.95); background: var(--gold); color: var(--maroon); }
+        .pass-input { background: none; border: 1px solid var(--gold); color: var(--gold); padding: 12px; text-align: center; width: 220px; margin-bottom: 25px; font-size: 1.3rem; outline: none; border-radius: 5px; letter-spacing: 5px; }
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2900; display: none; backdrop-filter: blur(3px); }
     </style>
 </head>
 <body>
@@ -92,35 +93,38 @@
     </div>
 
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+    
     <div id="sidebar">
-        <div class="menu-header">အခင်းအကျင်း ရွေးပါ</div>
+        <div class="menu-header">MENU</div>
         <button class="sidebar-btn" onclick="selectSpread('single', 1)">ရွှေတစ်ချပ်အခင်း</button>
-        <button class="sidebar-btn" onclick="selectSpread('saloon', 6)">စလွန်းတောင်အခင်း</button>
-        <button class="sidebar-btn" onclick="selectSpread('kadaw', 4)">ကတော်လေးပါးအခင်း</button>
-        <button class="sidebar-btn" onclick="selectSpread('kuni', 5)">ကူနီပွဲအခင်း</button>
+        <button class="sidebar-btn" onclick="selectSpread('kadaw', 4)">ကတော်လေးပါး (၄)</button>
+        <button class="sidebar-btn" onclick="selectSpread('kuni', 5)">ကူနီပွဲ (၅)</button>
+        <button class="sidebar-btn" onclick="selectSpread('saloon', 6)">စလွန်းတောင် (၆)</button>
         <button class="sidebar-btn" onclick="selectSpread('house', 7)">အိမ်တွင်း ၇ ပါး</button>
-        <button class="sidebar-btn" onclick="location.reload()" style="margin-top:20px; color: #888;">ပြန်ထွက်မည်</button>
+        <button class="sidebar-btn" onclick="selectSpread('zodiac', 12)"> (၁၂) ရာသီခွင်အခင်း</button>
+        <button class="sidebar-btn" onclick="location.reload()" style="margin-top:30px; border-top: 1px solid #333; color: #777;">အစသို့ပြန်သွားမည်</button>
     </div>
 
     <div id="nav-bar">
         <div class="menu-icon" onclick="toggleMenu()">☰</div>
-        <div style="flex-grow: 1; text-align: center; color: var(--gold); font-weight: bold;">ရွှေနတ်ကြမ္မာ</div>
+        <div style="flex-grow: 1; text-align: center; color: var(--gold); font-weight: bold; font-size: 1.1rem; letter-spacing: 1px;">ရွှေမျက်နှာ ၁၀၀</div>
     </div>
 
     <div id="gate">
-        <h2 style="color:var(--gold);">ရွှေနတ်ကြမ္မာ</h2>
-        <input type="password" id="pass" class="pass-input" placeholder="PASSCODE" maxlength="6">
-        <button class="btn" style="width:225px" onclick="auth()">ဝင်မည်</button>
+        <h2 style="color:var(--gold); letter-spacing: 2px;">ရွှေမျက်နှာ ၁၀၀</h2>
+        <input type="password" id="pass" class="pass-input" placeholder="••••••" maxlength="6">
+        <button class="btn" style="width:245px" onclick="auth()">ACCESS</button>
     </div>
 
     <div id="menu-screen" style="display:none">
-        <h2 style="color:var(--gold); margin-bottom: 30px;">နိမိတ်အခင်းအကျင်း</h2>
-        <div style="display:flex; flex-direction:column; gap:15px; width:260px">
+        <h2 style="color:var(--gold); margin-bottom: 35px; font-size: 1.5rem;">နိမိတ်အခင်းအကျင်း</h2>
+        <div style="display:flex; flex-direction:column; gap:12px; width:260px">
             <button class="btn" onclick="selectSpread('single', 1)">ရွှေတစ်ချပ်အခင်း</button>
-            <button class="btn" onclick="selectSpread('saloon', 6)">စလွန်းတောင်</button>
             <button class="btn" onclick="selectSpread('kadaw', 4)">ကတော်လေးပါး</button>
             <button class="btn" onclick="selectSpread('kuni', 5)">ကူနီပွဲ</button>
+            <button class="btn" onclick="selectSpread('saloon', 6)">စလွန်းတောင်</button>
             <button class="btn" onclick="selectSpread('house', 7)">အိမ်တွင်း ၇ ပါး</button>
+            <button class="btn" onclick="selectSpread('zodiac', 12)" style="border: 2px solid var(--gold); font-weight: bold;">(၁၂) ရာသီခွင်အခင်း</button>
         </div>
     </div>
 
@@ -134,18 +138,28 @@
         const navBar = document.getElementById('nav-bar');
 
         const layouts = {
-            single: [{t:40, l:50}],
-            saloon: [{t:8,l:50},{t:35,l:25},{t:35,l:75},{t:65,l:15},{t:65,l:50},{t:65,l:85}],
-            kadaw:  [{t:15,l:50},{t:45,l:20},{t:45,l:80},{t:75,l:50}],
-            kuni:   [{t:15,l:25},{t:15,l:75},{t:45,l:50},{t:75,l:25},{t:75,l:75}],
-            house:  [{t:10,l:30},{t:10,l:70},{t:40,l:15},{t:40,l:50},{t:40,l:85},{t:70,l:30},{t:70,l:70}]
+            single: [{t:45, l:50}],
+            saloon: [{t:10,l:50},{t:35,l:25},{t:35,l:75},{t:65,l:15},{t:65,l:50},{t:65,l:85}],
+            kadaw:  [{t:15,l:50},{t:48,l:20},{t:48,l:80},{t:80,l:50}],
+            kuni:   [{t:15,l:25},{t:15,l:75},{t:48,l:50},{t:80,l:25},{t:80,l:75}],
+            house:  [{t:10,l:30},{t:10,l:70},{t:42,l:15},{t:42,l:50},{t:42,l:85},{t:75,l:30},{t:75,l:70}],
+            zodiac: [] // Will generate circle
         };
+
+        // Generate Circle for 12 Zodiac
+        for (let i = 0; i < 12; i++) {
+            let angle = (i * 30) - 90; // Start from top
+            let radius = 38; // Percentage of screen
+            let top = 48 + radius * Math.sin(angle * Math.PI / 180);
+            let left = 50 + radius * Math.cos(angle * Math.PI / 180);
+            layouts.zodiac.push({t: top, l: left});
+        }
 
         function auth() {
             if(document.getElementById('pass').value === "999999") {
                 document.getElementById('gate').style.display = 'none';
                 menuScreen.style.display = 'flex';
-            } else { alert('Code Incorrect!'); }
+            } else { alert('!'); }
         }
 
         function toggleMenu() {
@@ -165,8 +179,13 @@
         function draw(type, count) {
             const coords = layouts[type];
             table.innerHTML = '';
+            
+            // Adjust card size for Zodiac
+            const cardSize = type === 'zodiac' ? '60px' : '80px';
+            const cardHeight = type === 'zodiac' ? '95px' : '125px';
+            document.documentElement.style.setProperty('--card-w', cardSize);
+            document.documentElement.style.setProperty('--card-h', cardHeight);
 
-            // Unique Card Selection
             let pool = Array.from({length: 100}, (_, i) => i + 1);
             let selected = [];
             for(let i=0; i<count; i++) {
@@ -177,7 +196,7 @@
             selected.forEach((num, i) => {
                 const c = document.createElement('div');
                 c.className = 'card';
-                c.style.top = '100%'; c.style.left = '50%';
+                c.style.top = '50%'; c.style.left = '50%'; // Spawn center
                 
                 c.innerHTML = `
                     <div class="card-inner" onclick="handleCardClick(this, ${num})">
@@ -192,7 +211,7 @@
                 setTimeout(() => {
                     c.style.top = coords[i].t + '%';
                     c.style.left = `calc(${coords[i].l}% - (var(--card-w) / 2))`;
-                }, i * 150);
+                }, i * 100);
             });
         }
 
@@ -201,7 +220,6 @@
             if(!card.classList.contains('flipped')) {
                 card.classList.add('flipped');
             } else {
-                // Zoom if already flipped
                 openZoom(num);
             }
         }
@@ -209,7 +227,6 @@
         function openZoom(num) {
             const zoomImg = document.getElementById('zoom-img');
             zoomImg.src = `${num}.png`;
-            // Fallback for case sensitivity
             zoomImg.onerror = function() { this.src = `${num}.PNG`; };
             document.getElementById('zoom-modal').style.display = 'flex';
         }
