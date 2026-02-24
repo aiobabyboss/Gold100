@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ရွှေမျက်နှာ ၁၀၀</title>
+    <title>ရွှေနမိတ် ၁၀၀</title>
     <style>
         :root { --gold: #D4AF37; --black: #050505; --card-w: 75px; --card-h: 115px; }
         body { margin: 0; background: var(--black); color: white; font-family: sans-serif; overflow-x: hidden; height: 100vh; background-image: radial-gradient(circle, #2a0202 0%, #000 100%); user-select: none; -webkit-user-select: none; }
@@ -40,21 +40,21 @@
     <div id="sidebar">
         <div style="color:var(--gold); font-weight:bold; margin-bottom:20px; text-align:center; border-bottom:1px solid var(--gold); padding-bottom:10px;">MENU</div>
         <button class="sidebar-btn" onclick="showGallery()">🎴 ကတ်များကြည့်ရန်</button>
-        <button class="sidebar-btn" onclick="selectSpread('single', 1)">✨ ရွှေတစ်ချပ်အခင်း</button>
-        <button class="sidebar-btn" onclick="selectSpread('kadaw', 4)">🙏 ကတော်လေးပါး</button>
-        <button class="sidebar-btn" onclick="selectSpread('kuni', 5)">🎪 ကူနီပွဲ</button>
-        <button class="sidebar-btn" onclick="selectSpread('saloon', 6)">⛰️ စလွန်းတောင်</button>
-        <button class="sidebar-btn" onclick="selectSpread('house', 7)">🏠 အိမ်တွင်း ၇ ပါး</button>
-        <button class="sidebar-btn" onclick="selectSpread('zodiac', 12)">♈ (၁၂) ရာသီခွင်</button>
+        <button class="sidebar-btn" onclick="selectSpread('single', 1)">ရွှေတစ်ချပ်အခင်း</button>
+        <button class="sidebar-btn" onclick="selectSpread('kadaw', 4)">ကတော်လေးပါးအခင်း</button>
+        <button class="sidebar-btn" onclick="selectSpread('kuni', 5)">ကူနီပွဲအခင်း</button>
+        <button class="sidebar-btn" onclick="selectSpread('saloon', 6)">စလွန်းတောင်အခင်း</button>
+        <button class="sidebar-btn" onclick="selectSpread('house', 7)">အိမ်တွင်း ၇ ပါးအခင်း</button>
+        <button class="sidebar-btn" onclick="selectSpread('zodiac', 12)">(၁၂)ရာသီခွင်အခင်း</button>
     </div>
 
     <div id="nav-bar">
         <div onclick="toggleMenu()" style="font-size:24px; color:var(--gold); cursor:pointer;">☰</div>
-        <div style="flex-grow:1; text-align:center; color:var(--gold); font-weight:bold;">ရွှေမျက်နှာ ၁၀၀</div>
+        <div style="flex-grow:1; text-align:center; color:var(--gold); font-weight:bold;">ရွှေနမိတ် ၁၀၀</div> 
     </div>
 
     <div id="gate" style="position:fixed; inset:0; background:black; z-index:4000; display:flex; flex-direction:column; justify-content:center; align-items:center;">
-        <h2 style="color:var(--gold);">ရွှေမျက်နှာ ၁၀၀</h2>
+        <h2 style="color:var(--gold);">ရွှေနမိတ် ၁၀၀</h2>
         <input type="password" id="pass" class="pass-input" placeholder="••••••" maxlength="6">
         <button class="btn" style="width:245px" onclick="auth()">ACCESS</button>
     </div>
@@ -62,12 +62,12 @@
     <div id="menu-screen" style="position:fixed; inset:0; background:black; z-index:2500; display:none; flex-direction:column; justify-content:center; align-items:center;">
         <h2 style="color:var(--gold); margin-bottom:30px;">နိမိတ်အခင်းအကျင်း</h2>
         <div style="display:flex; flex-direction:column; gap:12px; width:260px">
-            <button class="btn" onclick="showGallery()" style="border-width:2px; margin-bottom:10px;">🎴 ကတ်များကြည့်ရန်</button>
+            <button class="btn" onclick="showGallery()" style="border-width:2px; margin-bottom:10px;">ကတ်များကြည့်ရန်</button>
             <button class="btn" onclick="selectSpread('single', 1)">ရွှေတစ်ချပ်အခင်း</button>
-            <button class="btn" onclick="selectSpread('kadaw', 4)">ကတော်လေးပါး</button>
-            <button class="btn" onclick="selectSpread('kuni', 5)">ကူနီပွဲ</button>
-            <button class="btn" onclick="selectSpread('saloon', 6)">စလွန်းတောင်</button>
-            <button class="btn" onclick="selectSpread('house', 7)">အိမ်တွင်း ၇ ပါး</button>
+            <button class="btn" onclick="selectSpread('kadaw', 4)">ကတော်လေးပါးအခင်း</button>
+            <button class="btn" onclick="selectSpread('kuni', 5)">ကူနီပွဲအခင်း</button>
+            <button class="btn" onclick="selectSpread('saloon', 6)">စလွန်းတောင်အခင်း</button>
+            <button class="btn" onclick="selectSpread('house', 7)">အိမ်တွင်း ၇ ပါးအခင်း</button>
             <button class="btn" onclick="selectSpread('zodiac', 12)">(၁၂) ရာသီခွင်အခင်း</button>
         </div>
     </div>
