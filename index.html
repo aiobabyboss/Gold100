@@ -4,38 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ရွှေမျက်နှာ ၁၀၀</title>
-    <link rel="manifest" href="manifest.json">
     <style>
         :root { --gold: #D4AF37; --black: #050505; --card-w: 75px; --card-h: 115px; }
         body { margin: 0; background: var(--black); color: white; font-family: sans-serif; overflow-x: hidden; height: 100vh; background-image: radial-gradient(circle, #2a0202 0%, #000 100%); user-select: none; -webkit-user-select: none; }
-        
-        /* Sidebar */
         #sidebar { position: fixed; top: 0; left: -280px; width: 260px; height: 100%; background: rgba(10, 0, 0, 0.98); border-right: 1px solid var(--gold); z-index: 3000; transition: 0.4s; padding: 20px; box-sizing: border-box; }
         #sidebar.open { left: 0; }
         .sidebar-btn { width: 100%; background: none; border: 1px solid transparent; color: #ddd; padding: 15px; text-align: left; cursor: pointer; font-size: 1rem; border-bottom: 0.5px solid #222; }
-        
-        /* Navigation */
         #nav-bar { position: fixed; top: 0; width: 100%; height: 50px; background: rgba(0,0,0,0.8); display: none; align-items: center; padding: 0 15px; z-index: 1500; border-bottom: 1px solid var(--gold); }
-        
-        /* Table/Grid Area */
         #table { position: relative; width: 100vw; height: calc(100vh - 60px); display: none; margin-top: 60px; overflow-y: auto; padding-bottom: 50px; }
         .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; padding: 15px; }
-
-        /* Card Styles */
         .card { width: var(--card-w); height: var(--card-h); position: absolute; perspective: 1000px; transition: 1.2s; }
         .grid-card { position: relative !important; top: auto !important; left: auto !important; margin: 0 auto; width: 80px; height: 120px; }
-        
         .card-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: 0.6s; cursor: pointer; }
         .card.flipped .card-inner { transform: rotateY(180deg); }
         .face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 6px; border: 1.5px solid var(--gold); }
-        .back { background: #1a1a1a; background-image: url('1.png'); background-size: cover; }
+        .back { background: #1a1a1a; background-image: url('https://i.ibb.co/kV06L897/1.png'); background-size: cover; }
         .front { transform: rotateY(180deg); background: white; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .front img { width: 100%; height: 100%; object-fit: contain; }
-
-        /* Zoom Modal */
         #zoom-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 5000; display: none; justify-content: center; align-items: center; flex-direction: column; }
         #zoom-img { width: 85%; max-width: 380px; border: 2px solid var(--gold); border-radius: 10px; box-shadow: 0 0 20px var(--gold); }
-        
         .btn { background: linear-gradient(135deg, #5a0505, #2a0202); border: 1px solid var(--gold); color: var(--gold); padding: 15px; border-radius: 5px; cursor: pointer; font-size: 1rem; width: 100%; }
         .pass-input { background: none; border: 1px solid var(--gold); color: var(--gold); padding: 12px; text-align: center; width: 220px; margin-bottom: 25px; font-size: 1.3rem; outline: none; }
         .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2900; display: none; }
@@ -88,9 +75,109 @@
     <div id="table"></div>
 
     <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js'); });
-        }
+        // ပုံ ၁၀၀ လုံးရဲ့ ImgBB Direct Links များ (နမူနာပြထားသော links များထည့်ပေးထားသည်)
+        const imageLinks = {
+            1: "https://i.ibb.co/kV06L897/1.png",
+            2: "https://i.ibb.co/WvqzpTyM/2.png",
+            3: "https://i.ibb.co/8DsGSgZt/3.png",
+            4: "https://i.ibb.co/0VfCnkGD/4.png",
+            5: "https://i.ibb.co/b5478NpQ/5.png",
+            6: "https://i.ibb.co/JRGT08C1/6.png",
+            7: "https://i.ibb.co/M5t18v5Y/7.png",
+            8: "https://i.ibb.co/rGyFgCy5/8.png",
+            9: "https://i.ibb.co/SXpCDD94/9.png",
+            10: "https://i.ibb.co/s9HkBS0c/10.png",
+            11: "https://i.ibb.co/tTS7QksC/11.png",
+            12: "https://i.ibb.co/1YsPVyVL/12.png",
+            13: "https://i.ibb.co/pBS1CKTn/13.png",
+            14: "https://i.ibb.co/TxhdQ72s/14.png",
+            15: "https://i.ibb.co/PskgzgGC/15.png",
+            16: "https://i.ibb.co/WvZhWLJX/16.png",
+            17: "https://i.ibb.co/cX7ZQVPS/17.png",
+            18: "https://i.ibb.co/TDRjpp88/18.png",
+            19: "https://i.ibb.co/MkbYRchL/19.png",
+            20: "https://i.ibb.co/S407vkH0/20.png",
+            21: "https://i.ibb.co/VWd2T9rG/21.png",
+            22: "https://i.ibb.co/B2ZC2RHX/22.png",
+            23: "https://i.ibb.co/Y782VCT9/23.png",
+            24: "https://i.ibb.co/4n7HFRCw/24.png",
+            25: "https://i.ibb.co/B2VtRDTs/25.png",
+            26: "https://i.ibb.co/SXxbTD3C/26.png",
+            27: "https://i.ibb.co/Cs4vvCbT/27.png",
+            28: "https://i.ibb.co/dJLt43Dz/28.png",
+            29: "https://i.ibb.co/mVB7sBkS/29.png",
+            30: "https://i.ibb.co/ymSv217r/30.png",
+            31: "https://i.ibb.co/k22Frk1p/31.png",
+            32: "https://i.ibb.co/cSkSNT17/32.png",
+            33: "https://i.ibb.co/bjbjMQLQ/33.png",
+            34: "https://i.ibb.co/Y7GNS5fC/34.png",
+            35: "https://i.ibb.co/PsXLPdQN/35.png",
+            36: "https://i.ibb.co/yFm20dm1/36.png",
+            37: "https://i.ibb.co/sJ2bLVjm/37.png",
+            38: "https://i.ibb.co/chkpQ8Nk/38.png",
+            39: "https://i.ibb.co/nMXhNpTH/39.png",
+            40: "https://i.ibb.co/tTcq6PSd/40.png",
+            41: "https://i.ibb.co/qYRgtfp9/41.png",
+            42: "https://i.ibb.co/jZ4Ry2kH/42.png",
+            43: "https://i.ibb.co/FqnjVqx9/43.png",
+            44: "https://i.ibb.co/hxGHT8cZ/44.png",
+            45: "https://i.ibb.co/xtFTZfKV/45.png",
+            46: "https://i.ibb.co/Z6PqVCJs/46.png",
+            47: "https://i.ibb.co/VYVzqdF3/47.png",
+            48: "https://i.ibb.co/5WCZ0wqR/48.png",
+            49: "https://i.ibb.co/3m2zstgY/49.png",
+            50: "https://i.ibb.co/ksQpSFQJ/50.png",
+            51: "https://i.ibb.co/RGKMVrkb/51.png",
+            52: "https://i.ibb.co/8DbmNfFT/52.png",
+            53: "https://i.ibb.co/TxJmLCkC/53.png",
+            54: "https://i.ibb.co/tG518WD/54.png",
+            55: "https://i.ibb.co/NgFHRBG0/55.png",
+            56: "https://i.ibb.co/t6v0vpb/56.png",
+            57: "https://i.ibb.co/B20ck9nz/57.png",
+            58: "https://i.ibb.co/0RXVmdV7/58.png",
+            59: "https://i.ibb.co/GvyW0FLL/59.png",
+            60: "https://i.ibb.co/Sw1C35Fx/60.png",
+            61: "https://i.ibb.co/0RVBkFpS/61.png",
+            62: "https://i.ibb.co/1G7kzBL5/62.png",
+            63: "https://i.ibb.co/B2Bk1KmC/63.png",
+            64: "https://i.ibb.co/zHN7bz68/64.png",
+            65: "https://i.ibb.co/tw9tGH2P/65.png",
+            66: "https://i.ibb.co/zT8bdCBB/66.png",
+            67: "https://i.ibb.co/GfQZ86HH/67.png",
+            68: "https://i.ibb.co/NBC0h6R/68.png",
+            69: "https://i.ibb.co/C5zTWBD7/69.png",
+            70: "https://i.ibb.co/qF5BfZcM/70.png",
+            71: "https://i.ibb.co/WWcwrzbr/71.png",
+            72: "https://i.ibb.co/SDrbckyV/72.png",
+            73: "https://i.ibb.co/N2XcWYtm/73.png",
+            74: "https://i.ibb.co/RGKQ6g2j/74.png",
+            75: "https://i.ibb.co/B2P0jBNm/75.png",
+            76: "https://i.ibb.co/j9DdKwFg/76.png",
+            77: "https://i.ibb.co/r2nQnDQb/77.png",
+            78: "https://i.ibb.co/HDPc10ZM/78.png",
+            79: "https://i.ibb.co/zWsPrgJg/79.png",
+            80: "https://i.ibb.co/G3Mmjjtf/80.png",
+            81: "https://i.ibb.co/gMFR2DHp/81.png",
+            82: "https://i.ibb.co/qMhPfF19/82.png",
+            83: "https://i.ibb.co/tMMvnWk2/83.png",
+            84: "https://i.ibb.co/yLpGjYQ/84.png",
+            85: "https://i.ibb.co/F4N971sX/85.png",
+            86: "https://i.ibb.co/G37xg24G/86.png",
+            87: "https://i.ibb.co/5h9wMyjH/87.png",
+            88: "https://i.ibb.co/60N821RV/88.png",
+            89: "https://i.ibb.co/k24hDYX6/89.png",
+            90: "https://i.ibb.co/Vc02RmkQ/90.png",
+            91: "https://i.ibb.co/tw5h0k5y/91.png",
+            92: "https://i.ibb.co/238gY2kf/92.png",
+            93: "https://i.ibb.co/HDdQKHx7/93.png",
+            94: "https://i.ibb.co/mn9XQw5/94.png",
+            95: "https://i.ibb.co/mnTNkYq/95.png",
+            96: "https://i.ibb.co/GvDWbh9P/96.png",
+            97: "https://i.ibb.co/d4krKQGP/97.png",
+            98: "https://i.ibb.co/2TtkVHL/98.png",
+            99: "https://i.ibb.co/cSZ57Zsx/99.png",
+            100: "https://i.ibb.co/zW8GrRb0/100.png"
+        };
 
         const table = document.getElementById('table');
         const menuScreen = document.getElementById('menu-screen');
@@ -112,10 +199,10 @@
         }
 
         function auth() {
-            if(document.getElementById('pass').value === "111111") {
+            if(document.getElementById('pass').value === "999999") {
                 document.getElementById('gate').style.display = 'none';
                 menuScreen.style.display = 'flex';
-            } else { alert('ဆုတောင်း'); }
+            } else { alert('!'); }
         }
 
         function toggleMenu() {
@@ -123,6 +210,7 @@
             overlay.style.display = sidebar.classList.contains('open') ? 'block' : 'none';
         }
 
+        // Gallery မှာ ပုံတွေပြဖို့ Function
         function showGallery() {
             menuScreen.style.display = 'none';
             navBar.style.display = 'flex';
@@ -136,10 +224,11 @@
             for(let i=1; i<=100; i++) {
                 const div = document.createElement('div');
                 div.className = 'card grid-card flipped';
+                // ImgBB Link ကို imageLinks object ထဲကနေ ဆွဲသုံးသည်
                 div.innerHTML = `
                     <div class="card-inner" onclick="openZoom(${i})">
                         <div class="face front">
-                            <img src="${i}.png" onerror="this.onerror=null; this.src='${i}.PNG';">
+                            <img src="${imageLinks[i] || i + '.png'}">
                         </div>
                     </div>
                 `;
@@ -172,7 +261,14 @@
                 const c = document.createElement('div');
                 c.className = 'card';
                 c.style.top = '50%'; c.style.left = '50%';
-                c.innerHTML = `<div class="card-inner" onclick="handleCardClick(this, ${num})"><div class="face back"></div><div class="face front"><img src="${num}.png" onerror="this.onerror=null; this.src='${num}.PNG';"></div></div>`;
+                // ImgBB Link ကို imageLinks object ထဲကနေ ဆွဲသုံးသည်
+                c.innerHTML = `
+                    <div class="card-inner" onclick="handleCardClick(this, ${num})">
+                        <div class="face back"></div>
+                        <div class="face front">
+                            <img src="${imageLinks[num] || num + '.png'}">
+                        </div>
+                    </div>`;
                 table.appendChild(c);
                 setTimeout(() => { c.style.top = layouts[type][i].t + '%'; c.style.left = `calc(${layouts[type][i].l}% - (var(--card-w) / 2))`; }, i * 100);
             });
@@ -186,8 +282,8 @@
 
         function openZoom(num) {
             const img = document.getElementById('zoom-img');
-            img.src = `${num}.png`;
-            img.onerror = () => img.src = `${num}.PNG`;
+            // Zoom လုပ်လျှင်လည်း ImgBB Link ကိုသုံးသည်
+            img.src = imageLinks[num] || num + '.png';
             document.getElementById('zoom-modal').style.display = 'flex';
         }
 
@@ -195,4 +291,3 @@
     </script>
 </body>
 </html>
-
